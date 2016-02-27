@@ -22,3 +22,8 @@ void Fang::setSpeed(double speed)
 {
 	_motor->setSpeed(speed);
 }
+
+void Fang::force(double speed)
+{
+	setSpeed(speed);
+}

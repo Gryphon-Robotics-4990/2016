@@ -22,6 +22,7 @@ public:
 	Fang(unsigned int port);
 	~Fang();
 	void setSpeed(double speed);
+	void force(double speed);
 };
 
 #endif /* SRC_DRIVEBASE_FANG_H_ */

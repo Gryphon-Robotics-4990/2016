@@ -12,7 +12,7 @@
 
 #include <memory>
 
-class Intake;
+class Fang;
 class Gamepad;
 class HallEffectSensor;
 
@@ -20,14 +20,15 @@ class FangControl
 {
 private:
 	Fang* _fn;
-	HallEffectSensor* _hs;
+	HallEffectSensor* _hs[3];
 	Gamepad* _gp;
 
  //defaults to .5
-	void up(double speed = .5);
-	void down(double speed = .5);
+	void up();
+	void down();
+	void force(double speed);
 public:
-	FangControl(Fang* fn, HallEffectSensor* hs, Gamepad* gp);
+	FangControl(Fang* fn, HallEffectSensor* hs[], Gamepad* gp);
 	~FangControl();
 
 	void update();

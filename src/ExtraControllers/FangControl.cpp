@@ -32,7 +32,7 @@ void FangControl::up()
 	//defaults .5
 	constexpr double DEF_SPEED = .5; //default speed of intake motor
 
-	if(_hs->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
+	if(_hs[0]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
 	}
@@ -80,7 +80,7 @@ void FangControl::down()
 
 void FangControl::force(double speed) //sets the speed of intake motor to whatever speed you input as a parameter
 {
-	_in->setSpeed(speed);
+	_fn->setSpeed(speed);
 }
 
 void FangControl::update()
