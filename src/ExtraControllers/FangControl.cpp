@@ -16,15 +16,22 @@
 #include "Sensors/HallEffectSensor.h"
 #include "DriveBase/Fang.h"
 
-FangControl::FangControl(Fang* fn, HallEffectSensor* hs, Gamepad* gp) : _fn(fn), _hs(hs), _gp(gp)
+FangControl::FangControl(Fang* fn, HallEffectSensor* hsa, HallEffectSensor* hsb, HallEffectSensor* hsc, Gamepad* gp) : _fn(fn), _gp(gp)
 {
-
+	_hs[0] = hsa;
+	_hs[1] = hsb;
+	_hs[2] = hsc;
 }
 
 FangControl::~FangControl() = default;
 
 void FangControl::up()
 {
+	if(_pos == MAX_POS)
+	{
+		return;
+	}
+
 	//can't use a while loop because we want the execution to continue
 	static bool should_turn = true;
 	//right now dummy
@@ -32,7 +39,7 @@ void FangControl::up()
 	//defaults .5
 	constexpr double DEF_SPEED = .5; //default speed of intake motor
 
-	if(_hs[0]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
+	if(_hs[_pos + 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
 	}
@@ -54,6 +61,11 @@ void FangControl::down()
 //the only difference is that the default speed is -.5, making it turn backwards
 
 {
+
+	if(_pos == 0)
+	{
+		return;
+	}
 	//can't use a while loop because we want the execution to continue
 	static bool should_turn = true;
 	//right now dummy
@@ -61,7 +73,7 @@ void FangControl::down()
 	//defaults .5
 	constexpr double DEF_SPEED = -.5; //default speed of intake motor
 
-	if(_hs->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
+	if(_hs[_pos - 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
 	}

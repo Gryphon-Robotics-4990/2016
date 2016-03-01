@@ -19,8 +19,10 @@ class HallEffectSensor;
 class FangControl
 {
 private:
+	static constexpr char MAX_POS = 3;
+	char _pos;
 	Fang* _fn;
-	HallEffectSensor* _hs[3];
+	HallEffectSensor* _hs[MAX_POS];
 	Gamepad* _gp;
 
  //defaults to .5
@@ -28,7 +30,7 @@ private:
 	void down();
 	void force(double speed);
 public:
-	FangControl(Fang* fn, HallEffectSensor* hs[], Gamepad* gp);
+	FangControl(Fang* fn, HallEffectSensor* hsa, HallEffectSensor* hsb, HallEffectSensor* hsc, Gamepad* gp);
 	~FangControl();
 
 	void update();

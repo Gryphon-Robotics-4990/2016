@@ -3,6 +3,7 @@
 #include "DriveBase/DriveBase.h"
 #include "Motors/Motor.h"
 #include "DriveControllers/TeleopDrivetrainController.h"
+#include "DriveControllers/AutoDriveController.h"
 #include "Controllers/Gamepad.h"
 #include "ExtraControllers/IntakeControl.h"
 #include "DriveBase/Intake.h"
@@ -15,6 +16,7 @@ class Robot: public IterativeRobot
 private:
 	//Probably have a Union of Teleop and Auto DC later
 	std::unique_ptr<TeleopDrivetrainController> tdtc;
+	std::unique_ptr<AutoDriveController> adc;
 
 	std::unique_ptr<IntakeControl> ic;
 
@@ -66,12 +68,12 @@ private:
 	 */
 	void AutonomousInit()
 	{
-
+		adc = std::make_unique<AutoDriveController>(&db);
 	}
 
 	void AutonomousPeriodic()
 	{
-
+		adc->update();
 	}
 
 	void TeleopInit()
