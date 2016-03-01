@@ -17,7 +17,6 @@ private:
 	DriveBase db {
 			//set the values later
 
-
 			0, Side::Right,
 			3, Side::Right,
 			5, Side::Right,
