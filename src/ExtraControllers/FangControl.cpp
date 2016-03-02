@@ -25,9 +25,9 @@ FangControl::FangControl(Fang* fn, HallEffectSensor* hsa, HallEffectSensor* hsb,
 
 FangControl::~FangControl() = default;
 
-void FangControl::up()
+void FangControl::up() 
 {
-	if(_pos == MAX_POS)
+	if(_pos == MAX_POS) //will not turn if it is at its highest postion
 	{
 		return;
 	}
@@ -42,6 +42,7 @@ void FangControl::up()
 	if(_hs[_pos + 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
+		_pos = _pos + 1 //sets position to its new position, idk if the syntax is right
 	}
 
 	if(should_turn)
@@ -62,7 +63,7 @@ void FangControl::down()
 
 {
 
-	if(_pos == 0)
+	if(_pos == 0) //will not turn if it is at its lowest position
 	{
 		return;
 	}
@@ -76,6 +77,7 @@ void FangControl::down()
 	if(_hs[_pos - 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
+		_pos = _pos - 1 //sets position to its new position, idk if the syntax is right
 	}
 
 	if(should_turn)
@@ -100,8 +102,7 @@ void FangControl::update()
 	auto up_btn = _gp->getRawButton(1); //force button
 	auto dn_btn = _gp->getRawButton(2); //toggle button 
 
-	//force gets priority of both force and toggle pressed
-	//force speed depends on how much button is pressed
+	//will go up if both buttons are pressed, so be careful not to press both
 	if(up_btn != false) //checks the up button
 	{
 		up(); //turns fang upward until hall sensor is reached
