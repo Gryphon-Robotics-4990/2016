@@ -42,7 +42,7 @@ void FangControl::up()
 	if(_hs[_pos + 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
-		_pos = _pos + 1 //sets position to its new position, idk if the syntax is right
+		_pos = _pos + 1; //sets position to its new position, idk if the syntax is right
 	}
 
 	if(should_turn)
@@ -77,7 +77,7 @@ void FangControl::down()
 	if(_hs[_pos - 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
-		_pos = _pos - 1 //sets position to its new position, idk if the syntax is right
+		_pos = _pos - 1; //sets position to its new position, idk if the syntax is right
 	}
 
 	if(should_turn)
