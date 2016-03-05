@@ -35,8 +35,11 @@ private:
 			7, Side::Left
 	};
 
+	//There is no LimitSwitch
+	LimitSwitch ball_seek{0};
+
 	//port num -v
-	Intake in {6};
+	Intake in {6, &ball_seek};
 
 	//dummy value right now
 	Fang fng {1};
@@ -48,16 +51,12 @@ private:
 			std::make_unique<HallEffectSensor>(2)
 	};
 
-
-	//There is no LimitSwitch
-	//LimitSwitch ball_seek{0};
-
 	//number is the usb port of the controller according to the driver station
 	Gamepad gp{0};
 
 	void RobotInit()
 	{
-		ic = std::make_unique<IntakeControl>(&in, nullptr, &gp);
+		ic = std::make_unique<IntakeControl>(&in, &gp);
 		fc = std::make_unique<FangControl>(&fng, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get(), &gp);
 	}
 
@@ -86,7 +85,7 @@ private:
 	 */
 	void AutonomousInit()
 	{
-		adc = std::make_unique<AutoDriveController>(&db);
+		adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
 	}
 
 	void AutonomousPeriodic()

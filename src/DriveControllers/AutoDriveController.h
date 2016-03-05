@@ -11,17 +11,20 @@
 #include <memory>
 
 class DriveBase;
-
+class Fang;
+class Intake;
 class AutoDriveController
 {
 private:
 	DriveBase* _db;
+	Fang* _fng;
+	Intake* _in;
 	//the bottom class is for binds
 	class Robot;
 
 	std::unique_ptr<Robot> rb;
 public:
-	AutoDriveController(DriveBase* db);
+	AutoDriveController(DriveBase* db, Fang* fng, Intake* in);
 	~AutoDriveController();
 	void run();
 	void update();

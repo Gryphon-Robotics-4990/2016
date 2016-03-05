@@ -9,23 +9,41 @@
 
 #include "DriveBase/DriveBase.h"
 #include "Configs/CONFIGS.h"
+#include "DriveBase/Intake.h"
+#include "DriveBase/Fang.h"
 
 #include <cmath>
 #include <ctime>
 #include <vector>
+
+//ASSUMES std::time_t IS IN SECONDS
 
 enum class Commands
 {
 	travel_f,
 	travel_b,
 	turn_c,
-	turn_cc
+	turn_cc,
+	wait,
+};
+
+enum class State
+{
+	none,
+	intake,
+	expell,
 };
 
 struct CommandPackage
 {
 	Commands cmd;
 	std::time_t endtime;
+};
+
+struct StatePackage
+{
+	State state;
+	std::time_t timeout;
 };
 
 
@@ -35,6 +53,8 @@ private:
 	AutoDriveController* const _adc;
 
 	std::vector<CommandPackage> _cmds;
+	StatePackage _sp;
+
 public:
 	Robot(AutoDriveController* adc) : _adc(adc){};
 
@@ -77,6 +97,24 @@ public:
 		}
 	}
 
+	void wait(double seconds)
+	{
+		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + seconds;
+		_cmds.push_back({Commands::wait, end_time});
+	}
+
+	void intake(double timeout)
+	{
+		std::time_t end_time = std::time(nullptr) + timeout;
+		_sp = {State::intake, end_time};
+	}
+
+	void expell(double timeout)
+	{
+		std::time_t end_time = std::time(nullptr) + timeout;
+		_sp = {State::expell, end_time};
+	}
+
 	void update()
 	{
 		while(true)
@@ -88,6 +126,34 @@ public:
 
 			constexpr char DEAD = 0;
 			_adc->_db->setAll(DEAD);
+
+			//pop off first command
+			_cmds.erase(_cmds.begin() );
+		}
+
+		if(std::time(nullptr) > _sp.timeout)
+		{
+			_sp = {State::none, -1};
+		}
+
+		switch(_sp.state)
+		{
+			case State::intake:
+				if(_adc->_in->pressed() )
+				{
+					_sp = {State::none, -1};
+					break;
+				}
+
+				_adc->_in->setSpeed(CONFIGS::AUTO_SPEED);
+				break;
+
+			case State::expell:
+				_adc->_in->setSpeed(CONFIGS::AUTO_SPEED);
+				break;
+
+			default:
+				break;
 		}
 
 		switch(_cmds[0].cmd)
@@ -110,13 +176,16 @@ public:
 				_adc->_db->setSide(CONFIGS::AUTO_SPEED, Side::Left);
 				break;
 
+			case Commands::wait:
+				break;
+
 			default:
 				break;
 		}
 	}
 };
 
-AutoDriveController::AutoDriveController(DriveBase* db) : _db(db)
+AutoDriveController::AutoDriveController(DriveBase* db, Fang* fng, Intake* in) : _db(db), _fng(fng), _in(in)
 {
 	rb = std::make_unique<Robot>(this);
 	run();

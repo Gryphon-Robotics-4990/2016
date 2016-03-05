@@ -12,20 +12,18 @@
 
 class Intake;
 class Gamepad;
-class LimitSwitch;
 
 class IntakeControl
 {
 private:
 	Intake* _in;
-	LimitSwitch* _lw;
 	Gamepad* _gp;
 
 	void toggle();
 	//defaults to .5
 	void force(double speed = .5);
 public:
-	IntakeControl(Intake* in, LimitSwitch* lw, Gamepad* gp);
+	IntakeControl(Intake* in, Gamepad* gp);
 	~IntakeControl();
 
 	void update();

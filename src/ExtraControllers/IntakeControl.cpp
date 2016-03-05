@@ -13,7 +13,7 @@
 #include "Sensors/LimitSwitch.h"
 #include "DriveBase/Intake.h"
 
-IntakeControl::IntakeControl(Intake* in, LimitSwitch* lw, Gamepad* gp) : _in(in), _lw(lw), _gp(gp)
+IntakeControl::IntakeControl(Intake* in, Gamepad* gp) : _in(in), _gp(gp)
 {
 
 }
@@ -22,11 +22,6 @@ IntakeControl::~IntakeControl() = default;
 
 void IntakeControl::toggle()
 {
-	//disable if no limit switch
-	if(_lw == nullptr)
-	{
-		return;
-	}
 
 	//can't use a while loop because we want the execution to continue
 	static bool should_turn = true;
@@ -34,7 +29,7 @@ void IntakeControl::toggle()
 	//spins until limit switch is hit
 	//defaults .5
 
-	if(_lw->pressed() == true)  //if limit switch is pressed, stop the motor; otherwise keep turning at .5 speed
+	if(_in->pressed() == true)  //if limit switch is pressed, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
 	}
