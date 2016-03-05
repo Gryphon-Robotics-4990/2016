@@ -21,6 +21,8 @@ namespace CONFIGS {
 
 	//default speed of intake motor and fang
 	constexpr double DEF_SPEED = .5;
+
+	constexpr double AUTO_SPEED = .5 * MOTOR_SCALE;
 }
 
 #endif /* SRC_CONFIGS_CONFIGS_H_ */

@@ -93,21 +93,21 @@ public:
 		switch(_cmds[0].cmd)
 		{
 			case Commands::travel_f:
-				_adc->_db->setAll(CONFIGS::MOTOR_SCALE);
+				_adc->_db->setAll(CONFIGS::AUTO_SPEED);
 				break;
 
 			case Commands::travel_b:
-				_adc->_db->setAll(-CONFIGS::MOTOR_SCALE);
+				_adc->_db->setAll(-CONFIGS::AUTO_SPEED);
 				break;
 
 			case Commands::turn_c:
-				_adc->_db->setSide(CONFIGS::MOTOR_SCALE, Side::Right);
-				_adc->_db->setSide(-CONFIGS::MOTOR_SCALE, Side::Left);
+				_adc->_db->setSide(CONFIGS::AUTO_SPEED, Side::Right);
+				_adc->_db->setSide(-CONFIGS::AUTO_SPEED, Side::Left);
 				break;
 
 			case Commands::turn_cc:
-				_adc->_db->setSide(-CONFIGS::MOTOR_SCALE, Side::Right);
-				_adc->_db->setSide(CONFIGS::MOTOR_SCALE, Side::Left);
+				_adc->_db->setSide(-CONFIGS::AUTO_SPEED, Side::Right);
+				_adc->_db->setSide(CONFIGS::AUTO_SPEED, Side::Left);
 				break;
 
 			default:
