@@ -16,21 +16,17 @@
 #include "Sensors/HallEffectSensor.h"
 #include "DriveBase/Fang.h"
 
-FangControl::FangControl(Fang* fn, HallEffectSensor* hsa, HallEffectSensor* hsb, HallEffectSensor* hsc, Gamepad* gp) : _fn(fn), _gp(gp)
+FangControl::FangControl(Fang* fn, Gamepad* gp) : _fn(fn), _gp(gp)
 {
 	//??? The starting pos. Dummy value of zero for now.
 	_pos = CONFIGS::START_FANG_POS;
-
-	_hs[0] = hsa;
-	_hs[1] = hsb;
-	_hs[2] = hsc;
 }
 
 FangControl::~FangControl() = default;
 
 void FangControl::up() 
 {
-	if(_pos == MAX_POS) //will not turn if it is at its highest postion
+	if(_pos == Fang::MAX_POS) //will not turn if it is at its highest postion
 	{
 		return;
 	}
@@ -41,7 +37,7 @@ void FangControl::up()
 	//spins until limit switch is hit
 	//defaults .5
 
-	if(_hs[_pos + 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
+	if(_fn->getSensor(_pos + 1)->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
 		_pos = _pos + 1; //sets position to its new position, idk if the syntax is right
@@ -76,7 +72,7 @@ void FangControl::down()
 	//defaults .5
 	constexpr double DEF_SPEED = -.5; //default speed of intake motor
 
-	if(_hs[_pos - 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
+	if(_fn->getSensor(_pos - 1)->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
 		should_turn = false;
 		_pos = _pos - 1; //sets position to its new position, idk if the syntax is right

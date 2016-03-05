@@ -41,9 +41,6 @@ private:
 	//port num -v
 	Intake in {6, &ball_seek};
 
-	//dummy value right now
-	Fang fng {1};
-
 	std::unique_ptr<HallEffectSensor> hes_arr[3] =
 	{
 			std::make_unique<HallEffectSensor>(0),
@@ -51,13 +48,16 @@ private:
 			std::make_unique<HallEffectSensor>(2)
 	};
 
+	//dummy value right now
+	Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
+
 	//number is the usb port of the controller according to the driver station
 	Gamepad gp{0};
 
 	void RobotInit()
 	{
 		ic = std::make_unique<IntakeControl>(&in, &gp);
-		fc = std::make_unique<FangControl>(&fng, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get(), &gp);
+		fc = std::make_unique<FangControl>(&fng, &gp);
 	}
 
 	/**
