@@ -45,7 +45,7 @@ public:
 		//no encoders so we have to guess :(
 
 		//assuming time_t is seconds
-		std::time_t end_time = std::time(nullptr) + (std::abs(metres) / CONFIGS::MAX_SPEED);
+		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + (std::abs(metres) / CONFIGS::MAX_SPEED);
 
 		if(metres > 0)
 		{
@@ -65,7 +65,7 @@ public:
 		double distance = (CONFIGS::ROBOT_WIDTH * M_PI * degrees) / deg_in_circle;
 
 		constexpr char double_motors = 2;
-		std::time_ts end_time = std::time(nullptr) + (std::abs(distance) / CONFIGS::MAX_SPEED * double_motors);
+		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + (std::abs(distance) / CONFIGS::MAX_SPEED * double_motors);
 
 		if(degrees > 0)
 		{
