@@ -18,6 +18,9 @@
 
 FangControl::FangControl(Fang* fn, HallEffectSensor* hsa, HallEffectSensor* hsb, HallEffectSensor* hsc, Gamepad* gp) : _fn(fn), _gp(gp)
 {
+	//??? The starting pos. Dummy value of zero for now.
+	_pos = CONFIGS::START_FANG_POS;
+
 	_hs[0] = hsa;
 	_hs[1] = hsb;
 	_hs[2] = hsc;
@@ -37,7 +40,6 @@ void FangControl::up()
 	//right now dummy
 	//spins until limit switch is hit
 	//defaults .5
-	constexpr double DEF_SPEED = .5; //default speed of intake motor
 
 	if(_hs[_pos + 1]->pressed() == true)  //if sensor is reached, stop the motor; otherwise keep turning at .5 speed
 	{
@@ -47,7 +49,7 @@ void FangControl::up()
 
 	if(should_turn)
 	{
-		force(DEF_SPEED); //uses the force function below to set default speed
+		force(CONFIGS::DEF_SPEED); //uses the force function below to set default speed
 	}
 	else
 	{

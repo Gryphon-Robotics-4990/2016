@@ -16,6 +16,11 @@ namespace CONFIGS {
 	constexpr unsigned int RB_BIND = 6;
 	//compensation for right trigger dead spot
 	constexpr float RT_COMP = 0;
+
+	constexpr char START_FANG_POS = 0;
+
+	//default speed of intake motor and fang
+	constexpr double DEF_SPEED = .5;
 }
 
 #endif /* SRC_CONFIGS_CONFIGS_H_ */

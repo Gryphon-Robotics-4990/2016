@@ -8,6 +8,9 @@
 #include "ExtraControllers/IntakeControl.h"
 #include "DriveBase/Intake.h"
 #include "Sensors/LimitSwitch.h"
+#include "DriveBase/Fang.h"
+#include "ExtraControllers/FangControl.h"
+#include "Sensors/HallEffectSensor.h"
 
 #include <memory>
 
@@ -19,6 +22,7 @@ private:
 	std::unique_ptr<AutoDriveController> adc;
 
 	std::unique_ptr<IntakeControl> ic;
+	std::unique_ptr<FangControl> fc;
 
 
 	DriveBase db {
@@ -31,16 +35,30 @@ private:
 			7, Side::Left
 	};
 
-	//dummy values
-	Intake in {1};
-	LimitSwitch ball_seek{0};
+	//port num -v
+	Intake in {6};
+
+	//dummy value right now
+	Fang fng {1};
+
+	std::unique_ptr<HallEffectSensor> hes_arr[3] =
+	{
+			std::make_unique<HallEffectSensor>(0),
+			std::make_unique<HallEffectSensor>(1),
+			std::make_unique<HallEffectSensor>(2)
+	};
+
+
+	//There is no LimitSwitch
+	//LimitSwitch ball_seek{0};
 
 	//number is the usb port of the controller according to the driver station
 	Gamepad gp{0};
 
 	void RobotInit()
 	{
-
+		ic = std::make_unique<IntakeControl>(&in, nullptr, &gp);
+		fc = std::make_unique<FangControl>(&fng, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get(), &gp);
 	}
 
 	/**
@@ -79,13 +97,13 @@ private:
 	void TeleopInit()
 	{
 		tdtc = std::make_unique<TeleopDrivetrainController>(&db, &gp);
-		ic = std::make_unique<IntakeControl>(&in, &ball_seek, &gp);
 	}
 
 	void TeleopPeriodic()
 	{
 		tdtc->update();
 		ic->update();
+		fc->update();
 	}
 
 	void TestPeriodic()

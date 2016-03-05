@@ -22,12 +22,17 @@ IntakeControl::~IntakeControl() = default;
 
 void IntakeControl::toggle()
 {
+	//disable if no limit switch
+	if(_lw == nullptr)
+	{
+		return;
+	}
+
 	//can't use a while loop because we want the execution to continue
 	static bool should_turn = true;
 	//right now dummy
 	//spins until limit switch is hit
 	//defaults .5
-	constexpr double DEF_SPEED = .5; //default speed of intake motor
 
 	if(_lw->pressed() == true)  //if limit switch is pressed, stop the motor; otherwise keep turning at .5 speed
 	{
@@ -36,7 +41,7 @@ void IntakeControl::toggle()
 
 	if(should_turn)
 	{
-		force(DEF_SPEED); //uses the force function below to set default speed
+		force(CONFIGS::DEF_SPEED); //uses the force function below to set default speed
 	}
 	else
 	{
