@@ -103,13 +103,15 @@ void FangControl::update()
 	//will go up if both buttons are pressed, so be careful not to press both
 	if(up_btn != false) //checks the up button
 	{
-		up(); //turns fang upward until hall sensor is reached
+		//up(); //turns fang upward until hall sensor is reached
+		force(.5);
 		return;
 	}
 
 	if(dn_btn != false) //turns fang downward until hall sensor is reached
 	{
-		down();
+		//down();
+		force(-.5);
 		return;
 	}
 

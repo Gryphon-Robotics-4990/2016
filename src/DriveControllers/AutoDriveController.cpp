@@ -213,6 +213,10 @@ void AutoDriveController::run()
 	//where all the auto commands go!
 	//ex rb->travel(12);
 	//rb->turn(50);
+	rb->travel(5);
+	rb->travel(-5);
+	rb->travel(5);
+	rb->turn(180);
 }
 
 void AutoDriveController::update()

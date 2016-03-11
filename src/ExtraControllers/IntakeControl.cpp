@@ -14,6 +14,7 @@
 #include "DriveBase/Intake.h"
 
 #include <ctime>
+#include <iostream>
 
 IntakeControl::IntakeControl(Intake* in, Gamepad* gp) : _in(in), _gp(gp)
 {
@@ -81,19 +82,19 @@ void IntakeControl::update()
 	//force speed depends on how much button is pressed
 	if(lt > CONFIGS::LT_COMP)
 	{
-		force(-lt * CONFIGS::MOTOR_SCALE);
+		force(-lt * CONFIGS::INTAKE_SCALE);
 		return;
 	}
 
 	if(rt > CONFIGS::RT_COMP)
 	{
-		force(rt * CONFIGS::MOTOR_SCALE); //turns motor at a speed proportional to how much rt is pressed
+		force(rt * CONFIGS::INTAKE_SCALE); //turns motor at a speed proportional to how much rt is pressed
 		return;
 	}
 
 	if(rb != false) //checks the toggle button, and toggles the motor if pressed
 	{
-		toggle();
+		//toggle();
 		return;
 	}
 

@@ -6,8 +6,9 @@ namespace CONFIGS {
 	constexpr double MAX_SPEED = 2.7432;
 
 	//so the robot doesn't go max speed
-	constexpr double MOTOR_SCALE = 1;
-
+	constexpr double MOTOR_SCALE = .85;
+	//scale for intake motor
+	constexpr double INTAKE_SCALE = 1;
 	//robot width in m
 	constexpr double ROBOT_WIDTH = .86;
 
