@@ -53,7 +53,7 @@ private:
 	AutoDriveController* const _adc;
 
 	std::vector<CommandPackage> _cmds;
-	StatePackage _sp;
+	std::vector<StatePackage> _sp;
 
 public:
 	Robot(AutoDriveController* adc) : _adc(adc){};
@@ -106,15 +106,26 @@ public:
 	void intake(double timeout)
 	{
 		std::time_t end_time = std::time(nullptr) + timeout;
-		_sp = {State::intake, end_time};
+		end_time += (_sp.size() == 0) ? 0 : _sp.end()->timeout;
+
+		_sp.push_back({State::intake, end_time} );
 	}
 
 	void expell(double timeout)
 	{
 		std::time_t end_time = std::time(nullptr) + timeout;
-		_sp = {State::expell, end_time};
+		end_time += (_sp.size() == 0) ? 0 : _sp.end()->timeout;
+		_sp.push_back({State::expell, end_time});
 	}
 
+	void noIntake(double timeout)
+	{
+		std::time_t end_time = std::time(nullptr) + timeout;
+		end_time += (_sp.size() == 0) ? 0 : _sp.end()->timeout;
+
+		_sp.push_back({State::none, end_time});
+
+	}
 	void update()
 	{
 		while(true)
@@ -131,17 +142,17 @@ public:
 			_cmds.erase(_cmds.begin() );
 		}
 
-		if(std::time(nullptr) > _sp.timeout)
+		while(std::time(nullptr) > _sp[0].timeout)
 		{
-			_sp = {State::none, -1};
+			_sp.erase(_sp.begin() );
 		}
 
-		switch(_sp.state)
+		switch(_sp[0].state)
 		{
 			case State::intake:
 				if(_adc->_in->pressed() )
 				{
-					_sp = {State::none, -1};
+					_sp[0] = {State::none, _sp[0].timeout};
 					break;
 				}
 
@@ -149,7 +160,11 @@ public:
 				break;
 
 			case State::expell:
-				_adc->_in->setSpeed(CONFIGS::AUTO_SPEED);
+				_adc->_in->setSpeed(-CONFIGS::AUTO_SPEED);
+				break;
+
+			case State::none:
+				_adc->_in->setSpeed(0);
 				break;
 
 			default:

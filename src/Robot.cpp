@@ -36,28 +36,32 @@ private:
 	};
 
 	//There is no LimitSwitch
-	LimitSwitch ball_seek{0};
+	//LimitSwitch ball_seek{0};
 
 	//port num -v
-	Intake in {6, &ball_seek};
+
+	//replace nullptr with &ball_seek
+	Intake in {6, nullptr};
 
 	std::unique_ptr<HallEffectSensor> hes_arr[3] =
 	{
-			std::make_unique<HallEffectSensor>(0),
 			std::make_unique<HallEffectSensor>(1),
-			std::make_unique<HallEffectSensor>(2)
+			std::make_unique<HallEffectSensor>(2),
+			//std::make_unique<HallEffectSensor>(2)
+			nullptr
 	};
 
 	//dummy value right now
-	Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
+
+	//Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
 
 	//number is the usb port of the controller according to the driver station
-	Gamepad gp{0};
+	Gamepad gpa{0};
+	Gamepad gpb{1};
 
 	void RobotInit()
 	{
-		ic = std::make_unique<IntakeControl>(&in, &gp);
-		fc = std::make_unique<FangControl>(&fng, &gp);
+		//std::cout << BUILD_NUM << std::endl;
 	}
 
 	/**
@@ -85,7 +89,8 @@ private:
 	 */
 	void AutonomousInit()
 	{
-		adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
+		//make sure to add &fng to replace nullptr
+		adc = std::make_unique<AutoDriveController>(&db, nullptr, &in);
 	}
 
 	void AutonomousPeriodic()
@@ -95,14 +100,18 @@ private:
 
 	void TeleopInit()
 	{
-		tdtc = std::make_unique<TeleopDrivetrainController>(&db, &gp);
+		tdtc = std::make_unique<TeleopDrivetrainController>(&db, &gpa);
+		ic = std::make_unique<IntakeControl>(&in, &gpb);
+
+		//replace nullptr with &fng
+		fc = std::make_unique<FangControl>(nullptr, &gpb);
 	}
 
 	void TeleopPeriodic()
 	{
 		tdtc->update();
 		ic->update();
-		fc->update();
+		//fc->update();
 	}
 
 	void TestPeriodic()

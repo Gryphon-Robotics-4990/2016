@@ -97,8 +97,8 @@ void FangControl::force(double speed) //sets the speed of intake motor to whatev
 
 void FangControl::update()
 {
-	auto up_btn = _gp->getRawButton(1); //force button
-	auto dn_btn = _gp->getRawButton(2); //toggle button 
+	auto up_btn = _gp->getRawButton(5); //force button
+	auto dn_btn = _gp->getRawButton(6); //toggle button
 
 	//will go up if both buttons are pressed, so be careful not to press both
 	if(up_btn != false) //checks the up button

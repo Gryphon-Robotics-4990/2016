@@ -18,7 +18,7 @@ class HallEffectSensor;
 class Fang
 {
 public:
-	static constexpr unsigned char MAX_POS = 3;
+	static constexpr unsigned char MAX_POS = 2;
 private:
 	std::unique_ptr<Motor> _motor;
 

@@ -21,7 +21,7 @@ Fang::Fang(unsigned int port, HallEffectSensor* hsa, HallEffectSensor* hsb, Hall
 
 	_hs[0] = hsa;
 	_hs[1] = hsb;
-	_hs[2] = hsc;
+	//_hs[2] = hsc;
 }
 
 Fang::~Fang() = default;
