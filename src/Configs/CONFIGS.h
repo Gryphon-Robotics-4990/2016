@@ -7,6 +7,14 @@ namespace CONFIGS {
 
 	//so the robot doesn't go max speed
 	constexpr double MOTOR_SCALE = .85;
+
+	//accel time in ms
+	constexpr double ACCEL_TIME = 175.0;
+
+	constexpr double THROTTLE_CUTOFF = .0006;
+
+	constexpr double MAX_TURN_RADIUS = 1.0;
+
 	//scale for intake motor
 	constexpr double INTAKE_SCALE = 1;
 	//robot width in m

@@ -15,6 +15,7 @@
 #include <cmath>
 #include <ctime>
 #include <vector>
+#include <iostream>
 
 //ASSUMES std::time_t IS IN SECONDS
 
@@ -144,6 +145,7 @@ public:
 
 		while(std::time(nullptr) > _sp[0].timeout)
 		{
+			std::cout << "Popping command with timeout " << _sp[0].timeout << std::endl;
 			_sp.erase(_sp.begin() );
 		}
 
@@ -213,9 +215,7 @@ void AutoDriveController::run()
 	//where all the auto commands go!
 	//ex rb->travel(12);
 	//rb->turn(50);
-	rb->travel(5);
-	rb->travel(-5);
-	rb->travel(5);
+	rb->travel(1);
 	rb->turn(180);
 }
 

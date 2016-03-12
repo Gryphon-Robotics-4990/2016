@@ -53,7 +53,7 @@ private:
 
 	//dummy value right now
 
-	//Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
+	Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
 
 	//number is the usb port of the controller according to the driver station
 	Gamepad gpa{0};
@@ -89,13 +89,12 @@ private:
 	 */
 	void AutonomousInit()
 	{
-		//make sure to add &fng to replace nullptr
-		adc = std::make_unique<AutoDriveController>(&db, nullptr, &in);
+		adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
 	}
 
 	void AutonomousPeriodic()
 	{
-		adc->update();
+		//adc->update();
 	}
 
 	void TeleopInit()
@@ -103,15 +102,14 @@ private:
 		tdtc = std::make_unique<TeleopDrivetrainController>(&db, &gpa);
 		ic = std::make_unique<IntakeControl>(&in, &gpb);
 
-		//replace nullptr with &fng
-		fc = std::make_unique<FangControl>(nullptr, &gpb);
+		fc = std::make_unique<FangControl>(&fng, &gpb);
 	}
 
 	void TeleopPeriodic()
 	{
 		tdtc->update();
 		ic->update();
-		//fc->update();
+		fc->update();
 	}
 
 	void TestPeriodic()
