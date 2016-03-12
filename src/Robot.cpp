@@ -94,7 +94,7 @@ private:
 
 	void AutonomousPeriodic()
 	{
-		adc->update();
+		//adc->update();
 	}
 
 	void TeleopInit()
