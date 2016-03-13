@@ -66,7 +66,7 @@ public:
 		//no encoders so we have to guess :(
 
 		//assuming time_t is seconds
-		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + (std::abs(metres) / CONFIGS::MAX_SPEED);
+		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + (std::abs(metres) / (CONFIGS::MAX_SPEED * CONFIGS::AUTO_SPEED) );
 
 		if(metres > 0)
 		{
@@ -86,7 +86,7 @@ public:
 		double distance = (CONFIGS::ROBOT_WIDTH * M_PI * degrees) / deg_in_circle;
 
 		constexpr char double_motors = 2;
-		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + (std::abs(distance) / CONFIGS::MAX_SPEED * double_motors);
+		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + (std::abs(distance) / (CONFIGS::MAX_SPEED * CONFIGS::AUTO_SPEED) * double_motors);
 
 		if(degrees > 0)
 		{
@@ -100,29 +100,29 @@ public:
 
 	void wait(double seconds)
 	{
-		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime) + seconds;
+		std::time_t end_time = ((_cmds.size() == 0) ? std::time(nullptr) + seconds : _cmds.end()->endtime) + seconds;
 		_cmds.push_back({Commands::wait, end_time});
 	}
 
 	void intake(double timeout)
 	{
-		std::time_t end_time = std::time(nullptr) + timeout;
-		end_time += (_sp.size() == 0) ? 0 : _sp.end()->timeout;
+		std::time_t end_time = timeout;
+		end_time += (_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime;
 
 		_sp.push_back({State::intake, end_time} );
 	}
 
 	void expell(double timeout)
 	{
-		std::time_t end_time = std::time(nullptr) + timeout;
-		end_time += (_sp.size() == 0) ? 0 : _sp.end()->timeout;
+		std::time_t end_time = timeout;
+		end_time += (_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime;
 		_sp.push_back({State::expell, end_time});
 	}
 
 	void noIntake(double timeout)
 	{
-		std::time_t end_time = std::time(nullptr) + timeout;
-		end_time += (_sp.size() == 0) ? 0 : _sp.end()->timeout;
+		std::time_t end_time = timeout;
+		end_time += (_cmds.size() == 0) ? std::time(nullptr) : _cmds.end()->endtime;
 
 		_sp.push_back({State::none, end_time});
 
@@ -213,10 +213,9 @@ AutoDriveController::~AutoDriveController() = default;
 void AutoDriveController::run()
 {
 	//where all the auto commands go!
-	//ex rb->travel(12);
-	//rb->turn(50);
-	rb->travel(1);
-	rb->turn(180);
+	//ex rb->travel(12); in meters
+	//rb->turn(50); in degrees
+	rb->travel(5);
 }
 
 void AutoDriveController::update()

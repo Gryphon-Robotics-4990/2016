@@ -89,7 +89,7 @@ private:
 	 */
 	void AutonomousInit()
 	{
-		adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
+		//adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
 	}
 
 	void AutonomousPeriodic()
