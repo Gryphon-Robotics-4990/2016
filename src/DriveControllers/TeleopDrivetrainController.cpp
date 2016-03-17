@@ -143,6 +143,29 @@ void TeleopDrivetrainController::setATurn(double controller_throttle, double con
 		}
 }
 
+void TeleopDrivetrainController::setBTurn(double throttle, double turn)
+{
+	//scale throttle
+	throttle *= CONFIGS::MOTOR_SCALE; //sets motor speed proportionally to position of left joystick
+
+	double l_side; //variables that will later be used to set motor speeds
+	double r_side;
+
+	if (turn >= 0) { //for right turns
+		l_side = throttle;
+		r_side = throttle * (1 - 2 * turn);
+	 	 } else { //for left turns
+	 		 l_side = throttle * (1 + 2 * turn);
+	 		 r_side = throttle;
+	 }
+
+	assert(l_side >= -1 && l_side <= 1); //makes sure that motor powers are between -1 and 1 to prevent errors
+	assert(r_side >= -1 && r_side <= 1);
+
+	_db->setSide(l_side, Side::Left); //sets motor speeds to l_sde and r_side
+	_db->setSide(r_side, Side::Right);
+}
+
 void TeleopDrivetrainController::update() {
 	/*What it does:
 	 * Grabs the values from the gamepad
@@ -157,5 +180,12 @@ void TeleopDrivetrainController::update() {
 	double ly = _gp->getLeftY();
 	double rx = -_gp->getRightX();
 
-	setATurn(ly, rx); //sets motor speeds using ly as throttle and rx as turn
+	if(CONFIGS::DRIVE_BETA)
+	{
+		setBTurn(ly, rx);
+	}
+	else
+	{
+		setATurn(ly, rx); //sets motor speeds using ly as throttle and rx as turn
+	}
 }

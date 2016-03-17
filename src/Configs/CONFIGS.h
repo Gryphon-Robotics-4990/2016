@@ -36,6 +36,9 @@ namespace CONFIGS {
 	constexpr double DEF_SPEED = .8;
 
 	constexpr double AUTO_SPEED = .5 * MOTOR_SCALE;
+
+	//drive beta
+	constexpr bool DRIVE_BETA = false;
 }
 
 #endif /* SRC_CONFIGS_CONFIGS_H_ */
