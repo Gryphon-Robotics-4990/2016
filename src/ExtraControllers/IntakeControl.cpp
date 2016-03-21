@@ -25,7 +25,7 @@ IntakeControl::~IntakeControl() = default;
 
 void IntakeControl::toggle()
 {
-	static double end_time = -1;
+	static double end_time;
 	static bool is_ball_in = false;
 	//can't use a while loop because we want the execution to continue
 	static bool should_turn = true;
@@ -42,7 +42,7 @@ void IntakeControl::toggle()
 	if(is_ball_in && should_turn)
 	{
 		//expell for 5 s
-		if(end_time == -1)
+		if(end_time == NULL)
 		{
 			end_time = std::time(nullptr) + 3;
 		}

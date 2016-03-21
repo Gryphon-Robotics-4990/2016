@@ -25,10 +25,8 @@ private:
 	DriveBase* _db;
 	Gamepad* _gp;
 
-	void setATurn(double throttle, double turn);
-	void setStraight(double speed);
-		void turnInPlace(double speed);
-		void setTurn(double throttle, double turn);
+	void setTurn(double throttle, double turn);
+
 public:
 	TeleopDrivetrainController(DriveBase* db, Gamepad* gp);
 	~TeleopDrivetrainController() = default;
