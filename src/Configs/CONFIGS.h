@@ -2,6 +2,11 @@
 #define SRC_CONFIGS_CONFIGS_H_
 
 namespace CONFIGS {
+
+	constexpr double ACCEL_TIME = 1;
+	constexpr double THROTTLE_CUTOFF = 0;
+	constexpr double MAX_TURN_RADIUS = 1;
+
 	//in m/s
 	constexpr double MAX_SPEED = 2.7432;
 

@@ -89,12 +89,9 @@ private:
 	 */
 	void AutonomousInit()
 	{
-<<<<<<< HEAD
-		//adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
-=======
+
 		//make sure to add &fng to replace nullptr
 		adc = std::make_unique<AutoDriveController>(&db, nullptr, &in);
->>>>>>> parent of 240dede... Before Drive Update
 	}
 
 	void AutonomousPeriodic()
