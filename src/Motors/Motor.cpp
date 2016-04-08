@@ -26,7 +26,7 @@ void Motor::setSpeed(double speed)
 {
 	//for debugging
 	assert(-1 <= speed && speed <= 1);
-	//std::cout << _channel << ": " << speed << std::endl;
+	std::cout << _channel << ": " << speed << std::endl;
 	_motor->Set(speed);
 }
 

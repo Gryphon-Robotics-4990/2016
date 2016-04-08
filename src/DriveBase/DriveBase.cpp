@@ -31,7 +31,14 @@ void DriveBase::setAll(double speed)
 {
 	for(auto& it : _motors)
 	{
-		it.first->setSpeed(speed);
+		if(it.second == Side::Right)
+		{
+			it.first->setSpeed(-speed);
+		}
+		else
+		{
+			it.first->setSpeed(speed);
+		}
 	}
 }
 

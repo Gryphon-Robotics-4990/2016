@@ -101,7 +101,7 @@ private:
 		//std::cout << "a" << std::endl;
 		try
 		{
-			//adc->update();
+			adc->update();
 		}
 
 		catch(std::exception& e)
@@ -128,6 +128,8 @@ private:
 			tdtc->update();
 			ic->update();
 			fc->update();
+
+			//db.setSide(gpa.getLeftY(), Side::Right);
 		}
 		catch (std::exception& e)
 		{
