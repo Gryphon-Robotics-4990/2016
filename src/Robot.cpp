@@ -123,9 +123,16 @@ private:
 
 	void TeleopPeriodic()
 	{
-		tdtc->update();
-		ic->update();
-		fc->update();
+		try
+		{
+			tdtc->update();
+			ic->update();
+			fc->update();
+		}
+		catch (std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 
 	void TestPeriodic()

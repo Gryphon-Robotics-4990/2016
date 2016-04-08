@@ -8,6 +8,8 @@
 #ifndef SRC_DRIVECONTROLLERS_AUTODRIVECONTROLLER_H_
 #define SRC_DRIVECONTROLLERS_AUTODRIVECONTROLLER_H_
 
+#include "Timer.h"
+
 #include <memory>
 #include <ctime>
 
@@ -18,6 +20,7 @@ class AutoDriveController
 {
 private:
 	std::time_t _starttime;
+	Timer _countdown;
 	DriveBase* _db;
 	Fang* _fng;
 	Intake* _in;

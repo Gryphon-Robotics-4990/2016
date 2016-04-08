@@ -12,6 +12,7 @@
 #include "DriveBase/Intake.h"
 #include "DriveBase/Fang.h"
 
+
 #include <cmath>
 #include <ctime>
 #include <vector>
@@ -218,8 +219,9 @@ AutoDriveController::AutoDriveController(DriveBase* db, Fang* fng, Intake* in) :
 {
 	rb = std::make_unique<Robot>(this);
 	assert(rb);
-	run();
+	//run();
 	_starttime = std::time(nullptr);
+	_countdown.Start();
 }
 
 AutoDriveController::~AutoDriveController() = default;
@@ -239,6 +241,7 @@ void AutoDriveController::run()
 
 void AutoDriveController::update()
 {
+	/*
 	try
 	{
 		if(_starttime + 15 > std::time(nullptr) )
@@ -254,5 +257,16 @@ void AutoDriveController::update()
 	{
 		std::cerr << e.what() << std::endl;
 //		throw e;
+	}
+	*/
+
+	//for two seconds, turn the motor at the default auto speed
+
+	std::cout << _countdown.Get() << std::endl;
+	if(_countdown.Get() < 2)
+	{
+		_db->setSide(CONFIGS::AUTO_SPEED, Side::Right);
+		_db->setSide(-CONFIGS::AUTO_SPEED, Side::Left);
+
 	}
 }
