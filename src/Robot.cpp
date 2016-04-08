@@ -101,7 +101,7 @@ private:
 		//std::cout << "a" << std::endl;
 		try
 		{
-			adc->update();
+			//adc->update();
 		}
 
 		catch(std::exception& e)

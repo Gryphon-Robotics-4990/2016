@@ -133,7 +133,7 @@ public:
 	}
 	void update()
 	{
-		if(_cmds.size() != 0)
+		if(_cmds.empty() )
 		{
 			while(true)
 			{
@@ -182,7 +182,7 @@ public:
 		}
 		*/
 
-		if(_cmds.size() != 0)
+		if(_cmds.empty() )
 		{
 			switch(_cmds[0].cmd)
 			{
@@ -219,6 +219,7 @@ AutoDriveController::AutoDriveController(DriveBase* db, Fang* fng, Intake* in) :
 	rb = std::make_unique<Robot>(this);
 	assert(rb);
 	run();
+	_starttime = std::time(nullptr);
 }
 
 AutoDriveController::~AutoDriveController() = default;
@@ -240,6 +241,11 @@ void AutoDriveController::update()
 {
 	try
 	{
+		if(_starttime + 15 > std::time(nullptr) )
+		{
+			return;
+		}
+
 		std::cout << "a" << std::endl;
 		rb->update();
 		std::cout << "b" << std::endl;
@@ -247,6 +253,6 @@ void AutoDriveController::update()
 	catch(std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
-		throw e;
+//		throw e;
 	}
 }

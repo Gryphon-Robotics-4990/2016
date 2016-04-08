@@ -9,6 +9,7 @@
 #define SRC_DRIVECONTROLLERS_AUTODRIVECONTROLLER_H_
 
 #include <memory>
+#include <ctime>
 
 class DriveBase;
 class Fang;
@@ -16,6 +17,7 @@ class Intake;
 class AutoDriveController
 {
 private:
+	std::time_t _starttime;
 	DriveBase* _db;
 	Fang* _fng;
 	Intake* _in;
