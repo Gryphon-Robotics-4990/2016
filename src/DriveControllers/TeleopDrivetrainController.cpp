@@ -28,7 +28,6 @@ TeleopDrivetrainController::TeleopDrivetrainController(DriveBase* db,
 void TeleopDrivetrainController::setTurn(double throttle, double turn)
 {
 	//Super sensitive
-
 	//scale throttle
 	throttle *= CONFIGS::MOTOR_SCALE; //sets motor speed proportionally to position of left joystick
 

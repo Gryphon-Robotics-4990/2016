@@ -26,7 +26,6 @@ private:
 	std::unique_ptr<FangControl> fc;
 	std::unique_ptr<Pneumatic> pneumatic;
 
-
 	DriveBase db {
 			//set the values later
 			0, Side::Right,

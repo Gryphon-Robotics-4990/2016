@@ -49,7 +49,6 @@ struct StatePackage
 	std::time_t timeout;
 };
 
-
 class AutoDriveController::Robot
 {
 private:
