@@ -11,6 +11,7 @@
 #include "DriveBase/Fang.h"
 #include "ExtraControllers/FangControl.h"
 #include "Sensors/HallEffectSensor.h"
+#include "DriveBase/Pneumatic.h"
 
 #include <memory>
 
@@ -23,16 +24,17 @@ private:
 
 	std::unique_ptr<IntakeControl> ic;
 	std::unique_ptr<FangControl> fc;
+	std::unique_ptr<Pneumatic> pneumatic;
 
 
 	DriveBase db {
 			//set the values later
 			0, Side::Right,
-			3, Side::Right,
-			5, Side::Right,
-			4, Side::Left,
-			2, Side::Left,
-			7, Side::Left
+			//3, Side::Right,
+			1, Side::Right,
+			//4, Side::Left,
+			3, Side::Left,
+			2, Side::Left
 	};
 
 	//There is no LimitSwitch
@@ -41,6 +43,7 @@ private:
 	//port num -v
 
 	//replace nullptr with &ball_seek
+	//         |-- THIS IS THE PORT TO THE MOTOR
 	Intake in {6, nullptr};
 
 	std::unique_ptr<HallEffectSensor> hes_arr[3] =
@@ -53,7 +56,7 @@ private:
 
 	//dummy value right now
 
-	Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
+	//Fang fng {1, hes_arr[0].get(), hes_arr[1].get(), hes_arr[2].get()};
 
 	//number is the usb port of the controller according to the driver station
 	Gamepad gpa{0};
@@ -93,7 +96,7 @@ private:
 	 */
 	void AutonomousInit()
 	{
-		adc = std::make_unique<AutoDriveController>(&db, &fng, &in);
+		adc = std::make_unique<AutoDriveController>(&db, nullptr, &in);
 	}
 
 	void AutonomousPeriodic()
@@ -118,13 +121,21 @@ private:
 		tdtc = std::make_unique<TeleopDrivetrainController>(&db, &gpa);
 		ic = std::make_unique<IntakeControl>(&in, &gpb);
 
-		fc = std::make_unique<FangControl>(&fng, &gpb);
+		//									    |-- This is the port of the pneumatic!
+		pneumatic = std::make_unique<Pneumatic>(1);
+
+		//fc = std::make_unique<FangControl>(&fng, &gpb);
 	}
 
 	void TeleopPeriodic()
 	{
 		try
 		{
+			//hacky way for solenoid
+			//								|-this is port number
+			pneumatic->set(gpb.getRawButton(6) );
+
+			//regular way
 			tdtc->update();
 			ic->update();
 			fc->update();

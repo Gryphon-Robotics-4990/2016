@@ -263,7 +263,7 @@ void AutoDriveController::update()
 	//for two seconds, turn the motor at the default auto speed
 
 	//std::cout << _countdown.Get() << std::endl;
-	if(_countdown.Get() < 2)
+	if(_countdown.Get() < 4)
 	{
 		_db->setAll(CONFIGS::AUTO_SPEED);
 	}

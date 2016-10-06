@@ -6,7 +6,7 @@ namespace CONFIGS {
 	constexpr double MAX_SPEED = 2.7432;
 
 	//so the robot doesn't go max speed
-	constexpr double MOTOR_SCALE = .85;
+	constexpr double MOTOR_SCALE = .75;
 
 	//accel time in ms
 	constexpr double ACCEL_TIME = 175.0;
